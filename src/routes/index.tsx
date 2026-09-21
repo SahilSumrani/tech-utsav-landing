@@ -118,7 +118,7 @@ function Index() {
             </p>
             <div data-enter className="mt-7 sm:mt-9">
               <Button variant="community" size="community" asChild>
-                <a href="https://wa.me/" target="_blank" rel="noreferrer"><MessageCircle /> Join Our WhatsApp Community <ArrowUpRight /></a>
+                <a href="https://wa.me/" target="_blank" rel="noreferrer"><MessageCircle /> Join Our WhatsApp Community <ArrowUpRight className="hidden min-[360px]:block" /></a>
               </Button>
             </div>
           </div>
