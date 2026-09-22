@@ -187,8 +187,8 @@
 
 .brand-link {
   display: block;
-  width: 180px;
-  height: 104px;
+  width: 220px;
+  height: 110px;
 }
 
 .brand-link img {
@@ -312,11 +312,12 @@
 
 .right-scene {
   z-index: 15;
-  right: -3%;
-  bottom: 0;
-  width: min(75vw, 1080px);
-  max-height: 100%;
-  object-position: right bottom;
+  right: auto;
+  left: clamp(35%, 40vw, 45%);
+  bottom: -2%;
+  width: clamp(65%, 70vw, 1200px);
+  height: 105%;
+  object-position: left bottom;
 }
 
 @media (min-width: 900px) and (max-width: 1199px) {
@@ -327,8 +328,8 @@
   }
 
   .brand-link {
-    width: 145px;
-    height: 96px;
+    width: 180px;
+    height: 104px;
   }
 
   .desktop-navigation {
@@ -348,8 +349,8 @@
   }
 
   .right-scene {
-    right: -6%;
-    width: 77vw;
+    left: clamp(25%, 35vw, 40%);
+    width: clamp(75%, 85vw, 1000px);
   }
 }
 
@@ -361,8 +362,8 @@
   }
 
   .brand-link {
-    width: 142px;
-    height: 84px;
+    width: 160px;
+    height: 90px;
   }
 
   .desktop-navigation,
@@ -423,8 +424,8 @@
   }
 
   .right-scene {
-    right: -9%;
-    width: 78vw;
+    left: clamp(20%, 30vw, 35%);
+    width: clamp(80%, 90vw, 950px);
   }
 }
 
@@ -440,8 +441,8 @@
   }
 
   .brand-link {
-    width: 128px;
-    height: 76px;
+    width: 140px;
+    height: 80px;
   }
 
   .festival-hero {
