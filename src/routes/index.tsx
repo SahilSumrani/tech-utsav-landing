@@ -7,7 +7,6 @@ import heroTypography from "@/assets/hero-typography.png.asset.json";
 import leftLeaves from "@/assets/left-leaves.png.asset.json";
 import logo from "@/assets/techutsav-logo.png.asset.json";
 import rightScene from "@/assets/right-scene.png.asset.json";
-import topRightFlowers from "@/assets/top-right-flowers.png.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -101,7 +100,6 @@ function Index() {
       </header>
 
       <main className="festival-hero">
-        <img className="top-flowers" src={topRightFlowers.url} alt="" width={1319} height={1192} aria-hidden="true" />
         <img className="left-leaves" src={leftLeaves.url} alt="" width={1319} height={1192} aria-hidden="true" />
         <section className="hero-copy" aria-labelledby="hero-title">
           <p data-enter className="hero-eyebrow">People <span>•</span> Events <span>•</span> Opportunities</p>
