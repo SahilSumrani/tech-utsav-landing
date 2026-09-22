@@ -103,16 +103,6 @@ function Index() {
       <main className="festival-hero">
         <img className="top-flowers" src={topRightFlowers.url} alt="" width={1319} height={1192} aria-hidden="true" />
         <img className="left-leaves" src={leftLeaves.url} alt="" width={1319} height={1192} aria-hidden="true" />
-        <img
-          data-scene
-          className="right-scene"
-          src={rightScene.url}
-          alt="A decorated auto-rickshaw entering a heritage archway toward a lively Indian technology festival"
-          width={1536}
-          height={1024}
-          fetchPriority="high"
-        />
-
         <section className="hero-copy" aria-labelledby="hero-title">
           <p data-enter className="hero-eyebrow">People <span>•</span> Events <span>•</span> Opportunities</p>
           <h1 id="hero-title" className="sr-only">TechUtsav India</h1>
@@ -130,6 +120,16 @@ function Index() {
             <span>Join Our WhatsApp Community</span>
           </a>
         </section>
+
+        <img
+          data-scene
+          className="right-scene"
+          src={rightScene.url}
+          alt="A decorated auto-rickshaw entering a heritage archway toward a lively Indian technology festival"
+          width={1536}
+          height={1024}
+          fetchPriority="high"
+        />
       </main>
     </div>
   );
