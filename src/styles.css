@@ -165,8 +165,339 @@
   font-family: var(--font-display);
 }
 
-@utility hero-image-mask {
-  clip-path: polygon(3% 0, 97% 0, 100% 3%, 100% 97%, 97% 100%, 3% 100%, 0 97%, 0 3%);
+.festival-page {
+  min-height: 100svh;
+  overflow: hidden;
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+.festival-header {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  width: min(100%, 1440px);
+  height: 118px;
+  margin-inline: auto;
+  padding-inline: clamp(2rem, 4.5vw, 4.5rem);
+}
+
+.brand-link {
+  display: block;
+  width: 154px;
+  height: 92px;
+}
+
+.brand-link img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.desktop-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(1.35rem, 2.25vw, 2.5rem);
+}
+
+.desktop-navigation a {
+  color: var(--color-foreground);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: color 180ms ease;
+}
+
+.desktop-navigation a:hover,
+.desktop-navigation a[aria-current="page"] {
+  color: var(--color-terracotta);
+}
+
+.header-community {
+  border-radius: 999px;
+  padding-inline: 1.6rem;
+}
+
+.menu-trigger,
+.mobile-navigation {
+  display: none;
+}
+
+.festival-hero {
+  position: relative;
+  isolation: isolate;
+  width: min(100%, 1440px);
+  min-height: calc(100svh - 118px);
+  margin-inline: auto;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 20;
+  width: 49%;
+  padding: clamp(2rem, 5vh, 4rem) 0 6rem clamp(2rem, 4.5vw, 4.5rem);
+}
+
+.hero-eyebrow {
+  margin: 0 0 0.15rem 0.5rem;
+  color: var(--color-terracotta);
+  font-size: clamp(0.62rem, 0.75vw, 0.72rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-eyebrow span {
+  margin-inline: 0.45rem;
+  color: var(--color-mustard);
+}
+
+.hero-typography {
+  display: block;
+  width: min(100%, 590px);
+  height: auto;
+  margin-top: -2.4rem;
+  margin-left: -0.4rem;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.hero-cta {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 470px);
+  aspect-ratio: 1875 / 672;
+  margin-top: -2.25rem;
+  color: var(--color-primary-foreground);
+  font-size: clamp(0.68rem, 0.9vw, 0.8rem);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.hero-cta img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.hero-cta span {
+  position: relative;
+  z-index: 1;
+  width: 72%;
+  padding-right: 8%;
+  text-align: center;
+}
+
+.left-leaves,
+.right-scene,
+.top-flowers {
+  position: absolute;
+  height: auto;
+  pointer-events: none;
+  object-fit: contain;
+}
+
+.left-leaves {
+  z-index: 10;
+  bottom: -4.5%;
+  left: -5.5%;
+  width: clamp(230px, 28vw, 405px);
+}
+
+.right-scene {
+  z-index: 15;
+  right: -2.5%;
+  bottom: 0;
+  width: min(68vw, 980px);
+  max-height: 100%;
+  object-position: right bottom;
+}
+
+.top-flowers {
+  z-index: 18;
+  top: -18%;
+  right: -11%;
+  width: clamp(310px, 36vw, 520px);
+}
+
+@media (max-width: 1099px) {
+  .festival-header {
+    grid-template-columns: 1fr auto;
+    height: 96px;
+    padding-inline: clamp(1.25rem, 4vw, 2.5rem);
+  }
+
+  .brand-link {
+    width: 126px;
+    height: 78px;
+  }
+
+  .desktop-navigation,
+  .header-community {
+    display: none;
+  }
+
+  .menu-trigger {
+    display: inline-flex;
+    color: var(--color-primary);
+  }
+
+  .mobile-navigation {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    border-block: 1px solid var(--color-border);
+    background: var(--color-background);
+    opacity: 0;
+    transform: translateY(-0.75rem);
+    transition: opacity 200ms ease, transform 200ms ease, visibility 200ms ease;
+  }
+
+  .mobile-navigation.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-navigation nav {
+    display: grid;
+    width: min(100%, 40rem);
+    margin-inline: auto;
+    padding: 1rem 1.5rem 1.4rem;
+  }
+
+  .mobile-navigation nav > a:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+    padding-block: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+
+  .mobile-navigation .w-full {
+    margin-top: 1rem;
+  }
+
+  .festival-hero {
+    min-height: calc(100svh - 96px);
+  }
+
+  .hero-copy {
+    width: 54%;
+    padding-left: clamp(1.5rem, 4vw, 2.75rem);
+  }
+
+  .right-scene {
+    right: -8%;
+    width: 72vw;
+  }
+
+  .top-flowers {
+    right: -15%;
+  }
+}
+
+@media (max-width: 767px) {
+  .festival-page {
+    overflow-x: clip;
+  }
+
+  .festival-header {
+    height: 82px;
+    padding-inline: 1.1rem;
+  }
+
+  .brand-link {
+    width: 104px;
+    height: 68px;
+  }
+
+  .festival-hero {
+    display: flex;
+    min-height: calc(100svh - 82px);
+    flex-direction: column;
+    padding-top: 1.35rem;
+  }
+
+  .hero-copy {
+    width: 100%;
+    padding: 0 1.15rem;
+  }
+
+  .hero-eyebrow {
+    margin-left: 0.3rem;
+    font-size: 0.58rem;
+  }
+
+  .hero-eyebrow span {
+    margin-inline: 0.28rem;
+  }
+
+  .hero-typography {
+    width: min(100%, 420px);
+    margin-top: -1.7rem;
+    margin-left: -0.25rem;
+  }
+
+  .hero-cta {
+    width: min(92%, 390px);
+    margin-top: -1.8rem;
+    font-size: clamp(0.58rem, 2.3vw, 0.72rem);
+  }
+
+  .left-leaves {
+    z-index: 10;
+    bottom: -2%;
+    left: -14%;
+    width: min(58vw, 245px);
+  }
+
+  .right-scene {
+    position: relative;
+    z-index: 15;
+    right: auto;
+    bottom: auto;
+    width: 124%;
+    max-width: none;
+    max-height: none;
+    margin-top: -1.75rem;
+    margin-left: -12%;
+    object-position: center bottom;
+  }
+
+  .top-flowers {
+    z-index: 17;
+    top: -9%;
+    right: -22%;
+    width: min(75vw, 315px);
+  }
+}
+
+@media (max-width: 374px) {
+  .festival-hero {
+    padding-top: 0.85rem;
+  }
+
+  .hero-typography {
+    margin-top: -1.35rem;
+  }
+
+  .hero-cta {
+    margin-top: -1.55rem;
+  }
+
+  .right-scene {
+    margin-top: -1.25rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
