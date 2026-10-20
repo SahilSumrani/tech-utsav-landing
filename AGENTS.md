@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+Homepage content, verified-data collections, and editable community/social links belong in `src/lib/homepage-content.ts` so content remains separate from page presentation.
