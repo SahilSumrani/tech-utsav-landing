@@ -116,7 +116,7 @@ export function PhotoGallerySection() {
   return (
     <section
       id="gallery"
-      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white py-12 lg:py-24 border-t border-slate-200/80"
+      className="relative w-full overflow-hidden bg-gradient-to-b from-gray-50 to-white pt-12 pb-6 lg:pt-20 lg:pb-10 border-t border-slate-200/80"
     >
       {/* Lightbox Modal */}
       {selectedImage && (

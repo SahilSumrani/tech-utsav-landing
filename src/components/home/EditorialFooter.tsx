@@ -10,14 +10,15 @@ export function EditorialFooter() {
   };
 
   return (
-    <footer className="relative mt-8 overflow-hidden rounded-t-[40px] bg-[#101412] text-white md:mt-12 md:rounded-t-[60px] border-t border-white/10">
-      {/* Top 4-Color Indian Brand Accent Bar */}
-      <div aria-hidden="true" className="absolute inset-x-0 top-0 flex h-[3px]">
-        <span className="flex-1 bg-[oklch(0.62_0.16_42)]" /> {/* Terracotta */}
-        <span className="flex-1 bg-[oklch(0.78_0.15_79)]" /> {/* Muted Gold */}
-        <span className="flex-1 bg-[#003B27]" />             {/* Forest Green */}
-        <span className="flex-1 bg-[#9BE600]" />             {/* Electric Lime */}
-      </div>
+    <div className="w-full bg-white">
+      <footer className="relative overflow-hidden rounded-t-[40px] bg-[#101412] text-white md:rounded-t-[60px] border-t border-white/10">
+        {/* Top 4-Color Indian Brand Accent Bar */}
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 flex h-[3px]">
+          <span className="flex-1 bg-[oklch(0.62_0.16_42)]" /> {/* Terracotta */}
+          <span className="flex-1 bg-[oklch(0.78_0.15_79)]" /> {/* Muted Gold */}
+          <span className="flex-1 bg-[#003B27]" />             {/* Forest Green */}
+          <span className="flex-1 bg-[#9BE600]" />             {/* Electric Lime */}
+        </div>
 
       {/* Subtle Top Ambient Glow */}
       <div
@@ -236,5 +237,6 @@ export function EditorialFooter() {
         </div>
       </div>
     </footer>
+    </div>
   );
 }
