@@ -145,11 +145,16 @@ export function PhotoGallerySection() {
         {/* Mobile View - Simplified Subset */}
         <div className="lg:hidden px-2 sm:px-4">
           <div className="mb-6 sm:mb-8 text-center">
-            <h2 className="text-3xl font-black sm:text-4xl md:text-5xl text-[#00308F] tracking-tight">
-              Photo <span className="text-zinc-900">Gallery</span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#003B27]/20 bg-[#003B27]/5 px-3 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#003B27] mb-2">
+              <span className="size-1.5 rounded-full bg-[#E65A24]" />
+              MOMENTS & SNAPSHOTS
+              <span className="size-1.5 rounded-full bg-[#E65A24]" />
+            </div>
+            <h2 className="font-display text-3xl font-bold sm:text-4xl text-[#111814] tracking-tight">
+              Community <span className="text-[#003B27]">Gallery</span>
             </h2>
-            <p className="mt-3 sm:mt-4 text-base sm:text-lg text-zinc-600 font-medium">
-              A glimpse into our most memorable moments
+            <p className="mt-2 text-xs sm:text-sm text-[#4A554E] font-medium max-w-sm mx-auto">
+              Real moments from meetups, hackathons, and campus sessions.
             </p>
           </div>
           <div className="flex items-center justify-center gap-3 sm:gap-5 md:gap-8 max-w-full">
@@ -214,7 +219,7 @@ export function PhotoGallerySection() {
                 {col1.map((img, index) => (
                   <div
                     key={`d-c1-${index}`}
-                    className="group relative h-[182px] w-[134px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-slate-100 hover:border-[#9BE600]"
+                    className="group relative h-[182px] w-[134px] overflow-hidden rounded-3xl shadow-md hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-[#E3D9C9]/80 hover:border-[#003B27]"
                   >
                     <MosaicImage
                       src={img}
@@ -230,7 +235,7 @@ export function PhotoGallerySection() {
                 {col2.map((img, index) => (
                   <div
                     key={`d-c2-${index}`}
-                    className="group relative h-[146px] w-[134px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-slate-100 hover:border-[#9BE600]"
+                    className="group relative h-[146px] w-[134px] overflow-hidden rounded-3xl shadow-md hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-[#E3D9C9]/80 hover:border-[#003B27]"
                   >
                     <MosaicImage
                       src={img}
@@ -250,7 +255,7 @@ export function PhotoGallerySection() {
                   {center.map((img, index) => (
                     <div
                       key={`d-center-${index}`}
-                      className="group relative h-[250px] w-[135px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-slate-100 hover:border-[#00308F]"
+                      className="group relative h-[250px] w-[135px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-[#E3D9C9] hover:border-[#E65A24]"
                       style={{
                         marginTop:
                           index === 0 ? "63px" : index === 1 ? "27px" : index === 2 ? "0px" : "63px",
@@ -266,11 +271,16 @@ export function PhotoGallerySection() {
                   ))}
                 </div>
                 <div className="relative text-center">
-                  <h2 className="whitespace-nowrap font-black text-5xl text-[#00308F] sm:text-6xl md:text-7xl lg:text-[64px] tracking-tight">
-                    Photo <span className="text-zinc-900">Gallery</span>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#003B27]/20 bg-[#003B27]/5 px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#003B27] mb-2.5">
+                    <span className="size-1.5 rounded-full bg-[#E65A24]" />
+                    MOMENTS & SNAPSHOTS
+                    <span className="size-1.5 rounded-full bg-[#E65A24]" />
+                  </div>
+                  <h2 className="whitespace-nowrap font-display font-bold text-4xl sm:text-5xl md:text-6xl text-[#111814] tracking-tight">
+                    Community <span className="text-[#003B27]">Gallery</span>
                   </h2>
-                  <p className="mt-4 text-lg text-zinc-600 sm:text-xl md:text-2xl font-semibold">
-                    A glimpse into our most memorable moments
+                  <p className="mt-2 text-base text-[#4A554E] font-medium">
+                    A glimpse into real Indian builders, meetups, and hackathon prototypes.
                   </p>
                 </div>
               </div>
@@ -283,7 +293,7 @@ export function PhotoGallerySection() {
                 {col3.map((img, index) => (
                   <div
                     key={`d-c3-${index}`}
-                    className="group relative h-[146px] w-[134px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-slate-100 hover:border-[#9BE600]"
+                    className="group relative h-[146px] w-[134px] overflow-hidden rounded-3xl shadow-md hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-[#E3D9C9]/80 hover:border-[#003B27]"
                   >
                     <MosaicImage
                       src={img}
@@ -299,7 +309,7 @@ export function PhotoGallerySection() {
                 {col4.map((img, index) => (
                   <div
                     key={`d-c4-${index}`}
-                    className="group relative h-[182px] w-[134px] overflow-hidden rounded-3xl shadow-lg hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-slate-100 hover:border-[#9BE600]"
+                    className="group relative h-[182px] w-[134px] overflow-hidden rounded-3xl shadow-md hover:scale-105 transition-all duration-300 cursor-zoom-in border-2 border-[#E3D9C9]/80 hover:border-[#003B27]"
                   >
                     <MosaicImage
                       src={img}

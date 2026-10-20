@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from "react";
-import { ArrowRight, Calendar, MapPin } from "lucide-react";
+import { ArrowUpRight, Calendar, Clock, MapPin, Sparkles } from "lucide-react";
 import { motion } from "motion/react";
 import {
   EVENT_LISTINGS,
@@ -8,23 +8,6 @@ import {
 } from "@/lib/homepage-content";
 
 const CATEGORIES = ["All", "Hackathon", "Meetup", "Workshop", "Salon"] as const;
-
-const getBadgeStyle = (badge?: string) => {
-  switch (badge) {
-    case "Unstop":
-      return "bg-[#4338CA] text-white border-[#4338CA]";
-    case "Devfolio":
-      return "bg-[#2762EA] text-white border-[#2762EA]";
-    case "HackerEarth":
-      return "bg-[#2C3454] text-white border-[#2C3454]";
-    case "Nerds Room":
-    case "TechUtsav":
-      return "bg-[#9BE600] text-[#00308F] border-[#00308F]";
-    case "Luma":
-    default:
-      return "bg-[#00308F] text-white border-[#00308F]";
-  }
-};
 
 export function UpcomingEventsSection() {
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
@@ -37,7 +20,6 @@ export function UpcomingEventsSection() {
       if (stored) {
         const parsed = JSON.parse(stored);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          // Map admin events to EventListing schema if needed
           const mapped: EventListing[] = parsed.map((e: any, idx: number) => ({
             id: e.id || `custom-${idx}`,
             title: e.title,
@@ -55,7 +37,7 @@ export function UpcomingEventsSection() {
         }
       }
     } catch {
-      // fallback to static
+      // fallback to static list
     }
   }, []);
 
@@ -76,139 +58,154 @@ export function UpcomingEventsSection() {
     <section
       id="events"
       aria-labelledby="events-heading"
-      className="relative z-20 py-16 sm:py-24 bg-white"
+      className="relative z-20 py-16 sm:py-20 lg:py-24 bg-[#FAF5ED] border-t border-[#E3D9C9]"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8">
-        {/* Section Header (Matching Nerds Room Exact) */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 sm:mb-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        {/* Section Header with Indian Editorial Typography */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
           <div>
-            <span className="text-[#9BE600] font-black tracking-widest text-xs uppercase mb-1 block">
-              WHAT'S NEXT
-            </span>
+            <div className="inline-flex items-center gap-2 rounded-full border border-[#003B27]/20 bg-[#003B27]/5 px-3.5 py-1 text-xs font-mono font-bold uppercase tracking-widest text-[#003B27] mb-3">
+              <span className="size-1.5 rounded-full bg-[#E65A24]" />
+              UPCOMING SESSIONS & SPRINTS
+              <span className="size-1.5 rounded-full bg-[#E65A24]" />
+            </div>
+
             <h2
               id="events-heading"
-              className="text-3xl sm:text-4xl md:text-5xl font-black text-[#00308F] tracking-tight flex items-center gap-3"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[#111814]"
             >
-              Upcoming <span className="text-black">Events</span>
+              Learn Together, <span className="text-[#E65A24]">Build in Public</span>
             </h2>
-            <p className="text-gray-500 text-sm sm:text-base mt-1.5 font-semibold">
-              Discover and join exciting hackathons, buildathons, workshops and meetups.
+
+            <p className="mt-2 text-sm sm:text-base text-[#4A554E] max-w-2xl leading-relaxed">
+              Curated meetups, prototype hack-sprints, and engineering deep dives designed for
+              students, developers, and open-source contributors across Indian cities.
             </p>
           </div>
 
           {filteredEvents.length > 4 && selectedCategory === "All" && (
             <button
               onClick={() => setShowAllUpcoming(!showAllUpcoming)}
-              className="group self-start sm:self-auto text-sm font-black text-[#00308F] hover:text-[#002570] transition-colors flex items-center gap-1.5 cursor-pointer"
+              className="self-start md:self-end inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-[#003B27] hover:text-[#E65A24] px-4 py-2 rounded-full border border-[#E3D9C9] bg-white transition-all duration-200 cursor-pointer shadow-sm hover:shadow"
             >
               <span>
                 {showAllUpcoming
-                  ? "Show Less"
-                  : `View All Events (${filteredEvents.length})`}
+                  ? "Show Featured Events"
+                  : `View All ${filteredEvents.length} Events`}
               </span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <ArrowUpRight className="size-4" />
             </button>
           )}
         </div>
 
         {/* Category Filters */}
-        <div className="flex flex-wrap items-center gap-2 mb-8">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mb-10">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`rounded-full px-4 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+              className={`rounded-full px-4 py-1.5 text-xs font-medium tracking-wide transition-all duration-200 cursor-pointer ${
                 selectedCategory === cat
-                  ? "bg-[#00308F] text-white shadow-sm"
-                  : "border border-slate-200 bg-white text-slate-700 hover:border-[#9BE600]"
+                  ? "bg-[#003B27] text-[#FAF5ED] shadow-sm font-semibold"
+                  : "border border-[#E3D9C9] bg-white text-[#4A554E] hover:border-[#003B27] hover:text-[#003B27]"
               }`}
             >
-              {cat}
+              {cat === "All" ? "All Tracks" : cat}
             </button>
           ))}
         </div>
 
-        {/* 4-Column Card Grid with 1:1 Aspect Ratio Covers */}
+        {/* Responsive Events Grid */}
         {displayedEvents.length === 0 ? (
-          <div className="p-12 text-center bg-slate-50 border-2 border-dashed border-slate-200 rounded-3xl">
-            <Calendar className="w-12 h-12 text-slate-300 mx-auto mb-3" />
-            <h3 className="text-lg font-bold text-slate-700">No Upcoming Events Right Now</h3>
-            <p className="text-sm text-gray-500 mt-1">Check back soon or explore our community archives!</p>
+          <div className="p-12 text-center bg-white border border-[#E3D9C9] rounded-3xl">
+            <Calendar className="w-10 h-10 text-[#003B27]/40 mx-auto mb-3" />
+            <h3 className="text-base sm:text-lg font-bold text-[#111814]">
+              No sessions scheduled under this track
+            </h3>
+            <p className="text-xs sm:text-sm text-[#4A554E] mt-1">
+              Switch filter to "All Tracks" or check back shortly for upcoming community registrations.
+            </p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 justify-items-center sm:justify-items-stretch">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 sm:gap-6">
             {displayedEvents.map((event: EventListing, idx: number) => (
               <motion.article
                 key={event.id || idx}
                 initial={{ opacity: 0, y: 16 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: idx * 0.06 }}
-                className="bg-white border-2 border-[#00308F] rounded-2xl p-3 sm:p-3.5 flex flex-col justify-between shadow-[4px_4px_0px_rgba(0,48,143,0.16)] hover:shadow-[6px_6px_0px_#00308F] hover:-translate-y-1 transition-all duration-300 group max-w-[280px] w-full mx-auto sm:mx-0"
+                transition={{ duration: 0.35, delay: idx * 0.05 }}
+                className="group flex flex-col justify-between rounded-3xl border border-[#E3D9C9] bg-white p-4 sm:p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md hover:border-[#003B27]/40"
               >
                 <div>
-                  {/* 800x800 Exact 1:1 Square Cover Container */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-slate-100 border border-slate-200/80 shadow-inner">
+                  {/* Event Cover Image */}
+                  <div className="relative aspect-[16/10] w-full rounded-2xl overflow-hidden bg-neutral-100 border border-[#E3D9C9]/60">
                     <img
                       src={event.coverUrl || "/images/gallery/gallery-1.jpg"}
                       alt={event.title}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                       onError={(e) => {
                         (e.currentTarget as HTMLImageElement).src =
-                          "https://images.lumacdn.com/uploads/06/f0fb4a76-6cd8-419c-9c8a-0b682d506b9b.png";
+                          "/images/gallery/gallery-1.jpg";
                       }}
                     />
-                  </div>
 
-                  {/* Platform Badge & Chapter / City Tag */}
-                  <div className="flex flex-wrap items-center gap-1.5 mt-2.5 mb-2">
-                    <span
-                      className={`inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider border ${getBadgeStyle(
-                        event.badge
-                      )}`}
-                    >
-                      {event.badge || "TechUtsav"}
+                    {/* Category Tag pill */}
+                    <span className="absolute top-2.5 left-2.5 px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold uppercase tracking-wider bg-[#003B27]/90 text-white backdrop-blur-md border border-white/20">
+                      {event.category || "Sprint"}
                     </span>
-                    {(event.chapterName || event.city) && (
-                      <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-[#00308F] border border-[#00308F]/30">
-                        <MapPin className="w-2.5 h-2.5 text-[#00308F]" />
-                        {event.chapterName || event.city}
-                      </span>
-                    )}
+
+                    {/* Mode tag */}
+                    <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/90 text-[#111814] backdrop-blur-md border border-black/10">
+                      {event.city || "Pan-India"}
+                    </span>
                   </div>
 
                   {/* Title */}
-                  <h3 className="text-sm sm:text-base font-black text-slate-900 leading-snug group-hover:text-[#00308F] transition-colors line-clamp-2 mb-2">
+                  <h3 className="mt-3.5 font-display text-lg sm:text-xl font-bold text-[#111814] leading-snug group-hover:text-[#E65A24] transition-colors line-clamp-2">
                     {event.title}
                   </h3>
 
-                  {/* Meta Information */}
-                  <div className="flex flex-col gap-1 text-gray-500 text-[11px] font-semibold mb-3">
-                    <div className="flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-[#00308F] shrink-0" />
+                  {/* Description / Summary if available */}
+                  {event.description && (
+                    <p className="mt-1.5 text-xs text-[#4A554E] line-clamp-2 leading-relaxed">
+                      {event.description}
+                    </p>
+                  )}
+
+                  {/* Meta Information with icons */}
+                  <div className="mt-3.5 pt-3 border-t border-[#E3D9C9]/60 space-y-1.5 text-xs text-[#4A554E] font-sans">
+                    <div className="flex items-center gap-2">
+                      <Calendar className="w-3.5 h-3.5 text-[#003B27] shrink-0" />
                       <span className="truncate">{event.date}</span>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      <MapPin className="w-3.5 h-3.5 text-[#00308F] shrink-0" />
-                      <span className="truncate">
-                        {event.venue}, {event.city}
-                      </span>
+                    {event.time && (
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3.5 h-3.5 text-[#003B27] shrink-0" />
+                        <span className="truncate">{event.time}</span>
+                      </div>
+                    )}
+                    <div className="flex items-center gap-2">
+                      <MapPin className="w-3.5 h-3.5 text-[#E65A24] shrink-0" />
+                      <span className="truncate">{event.venue}</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Compact Register Button */}
-                <a
-                  href={event.href || OFFICIAL_WHATSAPP_COMMUNITY_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-2 px-3 bg-[#00308F] hover:bg-[#002570] text-white font-black rounded-lg text-center text-xs flex items-center justify-center gap-1 shadow-[2px_2px_0px_#9BE600] hover:shadow-[1px_1px_0px_#9BE600] hover:translate-y-0.5 active:translate-y-1 transition-all"
-                >
-                  <span>Register Now</span>
-                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
-                </a>
+                {/* Registration CTA Button */}
+                <div className="mt-5 pt-3 border-t border-[#E3D9C9]/40">
+                  <a
+                    href={event.href || OFFICIAL_WHATSAPP_COMMUNITY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#003B27] hover:bg-[#E65A24] text-white font-medium py-2.5 px-4 rounded-xl text-xs transition-all duration-300 shadow-sm active:scale-[0.99] cursor-pointer"
+                  >
+                    <span>RSVP & Details</span>
+                    <ArrowUpRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
               </motion.article>
             ))}
           </div>
