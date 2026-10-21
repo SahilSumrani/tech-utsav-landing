@@ -24,6 +24,9 @@ export function EditorialFooter() {
           <a href="#privacy" className="text-xs font-semibold text-slate-300 hover:text-white">
             Privacy
           </a>
+          <a href="#faq" className="text-xs font-semibold text-slate-300 hover:text-white">
+            FAQs
+          </a>
           <a
             href="#top"
             className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 transition-colors hover:text-white"

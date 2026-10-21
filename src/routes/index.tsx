@@ -14,6 +14,8 @@ import { UpcomingEventsSection } from "@/components/home/UpcomingEventsSection";
 import { JoinMovementSection } from "@/components/home/JoinMovementSection";
 import { EditorialFooter } from "@/components/home/EditorialFooter";
 import { CommunityInfoSection } from "@/components/home/CommunityInfoSection";
+import { CommunityFaqSection } from "@/components/home/CommunityFaqSection";
+import socialImage from "@/assets/techutsav-heritage-hero.jpg";
 
 const navigation = [
   { label: "About", href: "#about" },
@@ -38,6 +40,21 @@ export const Route = createFileRoute("/")({
           "A student-first technology community sharing learning resources and opportunities to help learners grow.",
       },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://techutsavindia.vercel.app/" },
+      { property: "og:image", content: `https://techutsavindia.vercel.app${socialImage}` },
+      { property: "og:image:alt", content: "TechUtsav India student technology community" },
+      {
+        name: "twitter:title",
+        content: "TechUtsav India — A student-first tech learning community",
+      },
+      {
+        name: "twitter:description",
+        content:
+          "Join 1K+ learners sharing student-friendly technology resources and opportunities.",
+      },
+      { name: "twitter:image", content: `https://techutsavindia.vercel.app${socialImage}` },
+      { name: "twitter:image:alt", content: "TechUtsav India student technology community" },
+      { name: "robots", content: "index, follow, max-image-preview:large" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
     links: [{ rel: "canonical", href: "https://techutsavindia.vercel.app/" }],
@@ -50,6 +67,32 @@ function Index() {
 
   return (
     <div id="top" className="festival-page">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": "https://techutsavindia.vercel.app/#organization",
+                name: "TechUtsav India",
+                url: "https://techutsavindia.vercel.app/",
+                description:
+                  "A student-first technology learning community sharing resources and opportunities.",
+                logo: `https://techutsavindia.vercel.app${logo.url}`,
+              },
+              {
+                "@type": "WebSite",
+                "@id": "https://techutsavindia.vercel.app/#website",
+                name: "TechUtsav India",
+                url: "https://techutsavindia.vercel.app/",
+                publisher: { "@id": "https://techutsavindia.vercel.app/#organization" },
+              },
+            ],
+          }),
+        }}
+      />
       <img
         className="top-right-flowers"
         src={topRightFlowers.url}
@@ -120,10 +163,7 @@ function Index() {
             height={1192}
             aria-hidden="true"
           />
-          <section className="hero-copy" aria-labelledby="hero-title">
-            <h1 id="hero-title" className="sr-only">
-              TechUtsav India
-            </h1>
+          <section className="hero-copy">
             <img
               className="hero-typography"
               src={heroTypography.url}
@@ -159,6 +199,7 @@ function Index() {
         <CommunityManifestoSection />
         <UpcomingEventsSection />
         <CommunityInfoSection />
+        <CommunityFaqSection />
         <JoinMovementSection />
       </main>
 

@@ -17,3 +17,26 @@ export const COMMUNITY_GUIDELINES = [
   "Avoid spam, unsolicited promotions and sharing anyone’s private information.",
   "Check links and claims before sharing them; label personal opinions clearly.",
 ];
+
+export const COMMUNITY_FAQS = [
+  {
+    question: "What is TechUtsav India?",
+    answer:
+      "TechUtsav India is a student-first technology learning community. Members share useful learning resources, ask questions and explore opportunities together.",
+  },
+  {
+    question: "Who can join the community?",
+    answer:
+      "Students and learners at any experience level are welcome. You do not need to be an expert to join or ask questions.",
+  },
+  {
+    question: "Does TechUtsav India organize hackathons or events?",
+    answer:
+      "Not currently. The community focuses on helping students learn and upskill, and shares relevant opportunities with members.",
+  },
+  {
+    question: "How do I get updates?",
+    answer:
+      "Join the official WhatsApp community to see the learning resources and opportunities shared with members.",
+  },
+];

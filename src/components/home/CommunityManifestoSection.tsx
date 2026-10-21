@@ -27,30 +27,30 @@ export function CommunityManifestoSection() {
     <section
       id="about"
       aria-labelledby="who-we-are-heading"
-      className="relative overflow-hidden border-t border-[#E3D9C9] bg-[#F8F1E5] px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-24"
+      className="relative overflow-hidden border-t border-[#E3D9C9] bg-[#F8F1E5] px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-20"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mx-auto max-w-3xl text-center">
           <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#E65A24]">
             A community for learning
           </p>
-          <h2
+          <h1
             id="who-we-are-heading"
             className="mt-3 font-display text-4xl font-semibold leading-tight tracking-tight text-[#111814] sm:text-5xl"
           >
             Grow your skills, <span className="text-[#006143]">one step at a time.</span>
-          </h2>
+          </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#4A554E] sm:text-base">
             TechUtsav India is a student-first technology community. We share resources and
             opportunities so learners can build skills and put them to use in their future.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
+        <div className="mt-8 grid gap-3 md:grid-cols-3 md:gap-4">
           {pillars.map(({ icon: Icon, title, description }, index) => (
             <article
               key={title}
-              className="rounded-3xl border border-[#E3D9C9] bg-white/85 p-6 shadow-sm transition-transform duration-200 hover:-translate-y-1"
+              className="rounded-2xl border border-[#E3D9C9] border-t-2 border-t-[#006143] bg-[#fffaf1] p-5 transition-colors duration-200 hover:border-[#b84b2a]/50 sm:p-6"
             >
               <span className="inline-flex size-11 items-center justify-center rounded-2xl bg-[#003B27]/8 text-[#006143]">
                 <Icon className="size-5" aria-hidden="true" />

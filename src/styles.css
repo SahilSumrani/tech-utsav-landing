@@ -544,6 +544,15 @@
   .left-leaves {
     display: none;
   }
+
+  #about,
+  #updates,
+  #how-to-join,
+  #guidelines,
+  #contact,
+  #faq {
+    scroll-margin-top: 5.5rem;
+  }
 }
 
 @media (max-width: 374px) {
