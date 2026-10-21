@@ -500,8 +500,8 @@
 
   .festival-hero {
     display: block;
-    min-height: max(560px, calc(100svh - 82px));
-    padding-top: 1rem;
+    min-height: 0;
+    padding: 1rem 0 1.5rem;
   }
 
   .hero-copy {
