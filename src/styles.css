@@ -395,6 +395,10 @@
 }
 
 @media (max-width: 899px) {
+  .top-right-flowers {
+    display: none;
+  }
+
   .festival-header {
     grid-template-columns: 1fr auto;
     height: 96px;
@@ -467,8 +471,7 @@
   }
 
   .right-scene {
-    left: clamp(20%, 30vw, 35%);
-    width: clamp(80%, 90vw, 950px);
+    display: none;
   }
 }
 
@@ -537,19 +540,6 @@
     left: -12%;
     width: min(48vw, 205px);
   }
-
-  .right-scene {
-    position: absolute;
-    z-index: 10;
-    right: -8%;
-    bottom: 0;
-    left: auto;
-    width: min(118%, 560px);
-    max-width: none;
-    height: 52%;
-    margin: 0;
-    object-position: center bottom;
-  }
 }
 
 @media (max-width: 374px) {
@@ -563,10 +553,6 @@
 
   .hero-cta {
     margin-top: 0.75rem;
-  }
-
-  .right-scene {
-    height: 48%;
   }
 }
 
