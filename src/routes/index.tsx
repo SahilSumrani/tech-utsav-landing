@@ -13,11 +13,13 @@ import { CommunityManifestoSection } from "@/components/home/CommunityManifestoS
 import { UpcomingEventsSection } from "@/components/home/UpcomingEventsSection";
 import { JoinMovementSection } from "@/components/home/JoinMovementSection";
 import { EditorialFooter } from "@/components/home/EditorialFooter";
+import { CommunityInfoSection } from "@/components/home/CommunityInfoSection";
 
 const navigation = [
   { label: "About", href: "#about" },
   { label: "Updates", href: "#updates" },
-  { label: "Community", href: "#community" },
+  { label: "How to join", href: "#how-to-join" },
+  { label: "Guidelines", href: "#guidelines" },
 ];
 
 export const Route = createFileRoute("/")({
@@ -155,6 +157,7 @@ function Index() {
 
         <CommunityManifestoSection />
         <UpcomingEventsSection />
+        <CommunityInfoSection />
         <JoinMovementSection />
       </main>
 

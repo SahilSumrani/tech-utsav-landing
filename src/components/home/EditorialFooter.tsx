@@ -17,12 +17,20 @@ export function EditorialFooter() {
         <p className="text-center text-xs text-slate-400">
           © {new Date().getFullYear()} TechUtsav India · Built for learners
         </p>
-        <a
-          href="#top"
-          className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 transition-colors hover:text-white"
-        >
-          Back to top <ArrowUp className="size-3.5" aria-hidden="true" />
-        </a>
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+          <a href="#contact" className="text-xs font-semibold text-slate-300 hover:text-white">
+            Contact
+          </a>
+          <a href="#privacy" className="text-xs font-semibold text-slate-300 hover:text-white">
+            Privacy
+          </a>
+          <a
+            href="#top"
+            className="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 transition-colors hover:text-white"
+          >
+            Back to top <ArrowUp className="size-3.5" aria-hidden="true" />
+          </a>
+        </div>
       </div>
     </footer>
   );
