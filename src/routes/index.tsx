@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowDown, ArrowUpRight, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import heroButton from "@/assets/hero-button.png.asset.json";
 import heroTypography from "@/assets/hero-typography.png.asset.json";
+import leftLeaves from "@/assets/left-leaves.png.asset.json";
 import logo from "@/assets/techutsav-logo.png.asset.json";
 import rightScene from "@/assets/right-scene.png.asset.json";
-import { COMMUNITY_MEMBER_COUNT, OFFICIAL_WHATSAPP_COMMUNITY_URL } from "@/lib/homepage-content";
+import topRightFlowers from "@/assets/top-right-flowers.png.asset.json";
+import { OFFICIAL_WHATSAPP_COMMUNITY_URL } from "@/lib/homepage-content";
 import { CommunityManifestoSection } from "@/components/home/CommunityManifestoSection";
 import { UpcomingEventsSection } from "@/components/home/UpcomingEventsSection";
 import { JoinMovementSection } from "@/components/home/JoinMovementSection";
@@ -44,6 +47,14 @@ function Index() {
 
   return (
     <div id="top" className="festival-page">
+      <img
+        className="top-right-flowers"
+        src={topRightFlowers.url}
+        alt=""
+        width={1000}
+        height={900}
+        aria-hidden="true"
+      />
       <header className="festival-header">
         <a href="#top" aria-label="TechUtsav India home" className="brand-link">
           <img src={logo.url} alt="TechUtsav India" width={501} height={498} />
@@ -97,37 +108,50 @@ function Index() {
       </header>
 
       <main>
-        <section className="community-hero" aria-labelledby="hero-title">
-          <div className="community-hero-copy">
-            <p className="hero-eyebrow">
-              A STUDENT-FIRST TECH COMMUNITY <span>·</span> INDIA
-            </p>
-            <h1 id="hero-title">
-              Your curiosity can take you <span>further.</span>
+        <div className="festival-hero">
+          <img
+            className="left-leaves"
+            src={leftLeaves.url}
+            alt=""
+            width={1319}
+            height={1192}
+            aria-hidden="true"
+          />
+          <section className="hero-copy" aria-labelledby="hero-title">
+            <h1 id="hero-title" className="sr-only">
+              TechUtsav India
             </h1>
-            <p className="community-hero-description">
+            <img
+              className="hero-typography"
+              src={heroTypography.url}
+              alt=""
+              width={1536}
+              height={1024}
+              aria-hidden="true"
+            />
+            <p className="hero-supporting-copy">
               Learn about technology, find useful opportunities and grow alongside a community of
               students who want to put their skills to work.
             </p>
             <a
-              className="community-hero-cta"
+              className="hero-cta"
               href={OFFICIAL_WHATSAPP_COMMUNITY_URL}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Join {COMMUNITY_MEMBER_COUNT} learners on WhatsApp
-              <ArrowUpRight className="size-4" aria-hidden="true" />
+              <img src={heroButton.url} alt="" aria-hidden="true" />
+              <span>Join Our WhatsApp Community</span>
             </a>
-            <a className="community-hero-secondary" href="#about">
-              Get to know us <ArrowDown className="size-4" aria-hidden="true" />
-            </a>
-          </div>
-          <div className="community-hero-art" aria-hidden="true">
-            <img src={heroTypography.url} alt="" width={1536} height={1024} />
-            <img src={rightScene.url} alt="" width={1536} height={1024} />
-          </div>
-          <p className="community-hero-note">A year of learning together. 1K+ members.</p>
-        </section>
+          </section>
+          <img
+            className="right-scene"
+            src={rightScene.url}
+            alt="A decorated auto-rickshaw entering a heritage archway toward a lively Indian technology festival"
+            width={1536}
+            height={1024}
+            fetchPriority="high"
+          />
+        </div>
 
         <CommunityManifestoSection />
         <UpcomingEventsSection />
