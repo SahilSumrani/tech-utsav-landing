@@ -1,247 +1,333 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Sparkles, Calendar, Image as ImageIcon, Settings } from "lucide-react";
-import { EVENT_LISTINGS, OFFICIAL_WHATSAPP_COMMUNITY_URL } from "@/lib/homepage-content";
-import type { AdminEvent, AdminTab } from "@/components/admin/types";
-import { AdminLogin } from "@/components/admin/AdminLogin";
-import { AdminHeader } from "@/components/admin/AdminHeader";
-import { AdminOverview } from "@/components/admin/AdminOverview";
-import { AdminEventsManager } from "@/components/admin/AdminEventsManager";
-import { AdminGalleryManager } from "@/components/admin/AdminGalleryManager";
-import { AdminSettings } from "@/components/admin/AdminSettings";
+import { useEffect, useState, type FormEvent } from "react";
+import { supabase, isSupabaseConfigured, type CommunityUpdate } from "@/lib/supabase";
 
 export const Route = createFileRoute("/admin")({
   head: () => ({
-    meta: [{ title: "Admin Portal — TechUtsav India" }],
+    meta: [
+      { title: "Community updates admin — TechUtsav India" },
+      { name: "robots", content: "noindex, nofollow" },
+    ],
   }),
   component: AdminPage,
 });
 
-export function AdminPage() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<AdminTab>("overview");
-  const [events, setEvents] = useState<AdminEvent[]>([]);
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
-  const [whatsappUrl, setWhatsappUrl] = useState(OFFICIAL_WHATSAPP_COMMUNITY_URL);
-  const [statusMessage, setStatusMessage] = useState<string | null>(null);
+function AdminPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [signedInEmail, setSignedInEmail] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [updates, setUpdates] = useState<CommunityUpdate[]>([]);
+  const [message, setMessage] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const loadAdminState = async () => {
+    if (!supabase) return;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    setSignedInEmail(user?.email ?? null);
+    if (!user) {
+      setIsAdmin(false);
+      setUpdates([]);
+      return;
+    }
+
+    const { data: membership, error: membershipError } = await supabase
+      .from("site_admins")
+      .select("user_id")
+      .eq("user_id", user.id)
+      .maybeSingle();
+    if (membershipError || !membership) {
+      setIsAdmin(false);
+      setMessage(
+        "This account does not have publishing access. Ask the project owner to grant admin access.",
+      );
+      return;
+    }
+
+    setIsAdmin(true);
+    const { data, error } = await supabase
+      .from("community_updates")
+      .select(
+        "id, title, summary, category, source_url, deadline, published_at, created_at, status",
+      )
+      .order("created_at", { ascending: false });
+    if (error) setMessage(error.message);
+    else setUpdates((data as CommunityUpdate[] | null) ?? []);
+  };
 
   useEffect(() => {
-    // Auth check
-    const token = localStorage.getItem("techutsav_admin_auth");
-    if (token === "true") setIsAuthenticated(true);
-
-    // Load events
-    const savedEvents = localStorage.getItem("techutsav_events_data");
-    if (savedEvents) {
-      try {
-        setEvents(JSON.parse(savedEvents));
-      } catch {
-        setEvents(getDefaultEvents());
-      }
-    } else {
-      const defaults = getDefaultEvents();
-      setEvents(defaults);
-      localStorage.setItem("techutsav_events_data", JSON.stringify(defaults));
-    }
-
-    // Load gallery
-    const savedGallery = localStorage.getItem("techutsav_gallery_data");
-    if (savedGallery) {
-      try {
-        setGalleryImages(JSON.parse(savedGallery));
-      } catch {
-        setGalleryImages(getDefaultGallery());
-      }
-    } else {
-      const defaults = getDefaultGallery();
-      setGalleryImages(defaults);
-      localStorage.setItem("techutsav_gallery_data", JSON.stringify(defaults));
-    }
-
-    // Load settings
-    const savedWa = localStorage.getItem("techutsav_whatsapp_url");
-    if (savedWa) setWhatsappUrl(savedWa);
+    if (!supabase) return;
+    void loadAdminState();
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      window.setTimeout(() => void loadAdminState(), 0);
+    });
+    return () => subscription.unsubscribe();
   }, []);
 
-  const showStatus = (msg: string) => {
-    setStatusMessage(msg);
-    setTimeout(() => setStatusMessage(null), 3000);
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!supabase) return;
+    setBusy(true);
+    setMessage("");
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) setMessage(error.message);
+    setPassword("");
+    setBusy(false);
+    await loadAdminState();
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("techutsav_admin_auth");
-    setIsAuthenticated(false);
+  const handlePublish = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!supabase) return;
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    setBusy(true);
+    setMessage("");
+    const status = form.get("status") as "draft" | "published";
+    const { error } = await supabase.from("community_updates").insert({
+      title: form.get("title"),
+      summary: form.get("summary"),
+      category: form.get("category"),
+      source_url: form.get("source_url"),
+      deadline: form.get("deadline") || null,
+      status,
+      published_at: status === "published" ? new Date().toISOString() : null,
+    });
+    if (error) setMessage(error.message);
+    else {
+      formElement.reset();
+      setMessage(status === "published" ? "Update published." : "Draft saved.");
+      await loadAdminState();
+    }
+    setBusy(false);
   };
 
-  const handleAddEvent = (newEv: AdminEvent) => {
-    const updated = [newEv, ...events];
-    setEvents(updated);
-    localStorage.setItem("techutsav_events_data", JSON.stringify(updated));
-    showStatus("Event added to live roster!");
+  const handleDelete = async (id: string) => {
+    if (!supabase) return;
+    setBusy(true);
+    const { error } = await supabase.from("community_updates").delete().eq("id", id);
+    setMessage(error?.message ?? "Update deleted.");
+    await loadAdminState();
+    setBusy(false);
   };
 
-  const handleDeleteEvent = (id: string) => {
-    const updated = events.filter((ev) => ev.id !== id);
-    setEvents(updated);
-    localStorage.setItem("techutsav_events_data", JSON.stringify(updated));
-    showStatus("Event removed.");
+  const handleSignOut = async () => {
+    await supabase?.auth.signOut();
+    setMessage("");
   };
-
-  const handleAddImage = (url: string) => {
-    const updated = [url, ...galleryImages];
-    setGalleryImages(updated);
-    localStorage.setItem("techutsav_gallery_data", JSON.stringify(updated));
-    showStatus("Photo added to community gallery!");
-  };
-
-  const handleDeleteImage = (index: number) => {
-    const updated = galleryImages.filter((_, i) => i !== index);
-    setGalleryImages(updated);
-    localStorage.setItem("techutsav_gallery_data", JSON.stringify(updated));
-    showStatus("Photo removed.");
-  };
-
-  const handleResetDefaults = () => {
-    const defaults = getDefaultGallery();
-    setGalleryImages(defaults);
-    localStorage.setItem("techutsav_gallery_data", JSON.stringify(defaults));
-    showStatus("Default gallery restored.");
-  };
-
-  const handleSaveSettings = (newUrl: string) => {
-    setWhatsappUrl(newUrl);
-    localStorage.setItem("techutsav_whatsapp_url", newUrl);
-    showStatus("Settings updated successfully!");
-  };
-
-  if (!isAuthenticated) {
-    return <AdminLogin onSuccess={() => setIsAuthenticated(true)} />;
-  }
 
   return (
-    <div className="min-h-screen bg-[#07130F] text-[#EAE2D7] font-sans antialiased">
-      <AdminHeader statusMessage={statusMessage} onLogout={handleLogout} />
+    <main className="min-h-screen bg-[#F8F1E5] px-4 py-12 text-[#111814] sm:px-6">
+      <div className="mx-auto max-w-3xl">
+        <a className="text-sm font-semibold text-[#006143] hover:text-[#E65A24]" href="/">
+          ← Back to TechUtsav India
+        </a>
+        <h1 className="mt-6 font-display text-4xl font-bold">Community updates</h1>
+        <p className="mt-2 text-sm leading-6 text-[#4A554E]">
+          Publish only useful information you have checked against its original source.
+        </p>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap items-center gap-2 mb-8 border-b border-white/10 pb-4">
-          <TabButton
-            active={activeTab === "overview"}
-            onClick={() => setActiveTab("overview")}
-            icon={<Sparkles className="w-4 h-4" />}
-            label="Overview & Metrics"
-          />
-          <TabButton
-            active={activeTab === "events"}
-            onClick={() => setActiveTab("events")}
-            icon={<Calendar className="w-4 h-4" />}
-            label={`Upcoming Events (${events.length})`}
-          />
-          <TabButton
-            active={activeTab === "gallery"}
-            onClick={() => setActiveTab("gallery")}
-            icon={<ImageIcon className="w-4 h-4" />}
-            label={`Mosaic Gallery (${galleryImages.length})`}
-          />
-          <TabButton
-            active={activeTab === "settings"}
-            onClick={() => setActiveTab("settings")}
-            icon={<Settings className="w-4 h-4" />}
-            label="Movement Channels"
-          />
-        </div>
+        {!isSupabaseConfigured && (
+          <Notice>
+            Supabase is not configured for this deployment. Add the VITE_SUPABASE_URL and
+            VITE_SUPABASE_ANON_KEY environment variables.
+          </Notice>
+        )}
+        {message && <Notice>{message}</Notice>}
 
-        {activeTab === "overview" && (
-          <AdminOverview
-            events={events}
-            galleryImages={galleryImages}
-            onNavigateTab={(tab) => setActiveTab(tab)}
-          />
+        {!signedInEmail && isSupabaseConfigured && (
+          <form
+            onSubmit={handleLogin}
+            className="mt-8 grid gap-4 rounded-3xl border border-[#E3D9C9] bg-white p-6 shadow-sm"
+          >
+            <h2 className="font-display text-2xl font-bold">Admin sign in</h2>
+            <label className="grid gap-1 text-sm font-semibold">
+              Email
+              <input
+                required
+                type="email"
+                autoComplete="username"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+              />
+            </label>
+            <label className="grid gap-1 text-sm font-semibold">
+              Password
+              <input
+                required
+                type="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+              />
+            </label>
+            <button
+              disabled={busy}
+              className="min-h-11 rounded-full bg-[#003B27] px-5 font-bold text-white disabled:opacity-60"
+            >
+              {busy ? "Signing in…" : "Sign in"}
+            </button>
+          </form>
         )}
 
-        {activeTab === "events" && (
-          <AdminEventsManager
-            events={events}
-            onAddEvent={handleAddEvent}
-            onDeleteEvent={handleDeleteEvent}
-          />
+        {signedInEmail && !isAdmin && (
+          <div className="mt-8 rounded-3xl border border-[#E3D9C9] bg-white p-6">
+            <p>Signed in as {signedInEmail}</p>
+            <button
+              onClick={() => void handleSignOut()}
+              className="mt-4 font-semibold text-[#006143]"
+            >
+              Sign out
+            </button>
+          </div>
         )}
 
-        {activeTab === "gallery" && (
-          <AdminGalleryManager
-            galleryImages={galleryImages}
-            onAddImage={handleAddImage}
-            onDeleteImage={handleDeleteImage}
-            onResetDefaults={handleResetDefaults}
-          />
+        {isAdmin && (
+          <>
+            <div className="mt-8 flex items-center justify-between rounded-2xl border border-[#E3D9C9] bg-white px-5 py-4 text-sm">
+              <span>
+                Signed in as <strong>{signedInEmail}</strong>
+              </span>
+              <button onClick={() => void handleSignOut()} className="font-semibold text-[#006143]">
+                Sign out
+              </button>
+            </div>
+            <form
+              onSubmit={handlePublish}
+              className="mt-5 grid gap-4 rounded-3xl border border-[#E3D9C9] bg-white p-6 shadow-sm"
+            >
+              <h2 className="font-display text-2xl font-bold">Add a verified update</h2>
+              <label className="grid gap-1 text-sm font-semibold">
+                Title
+                <input
+                  required
+                  minLength={5}
+                  maxLength={120}
+                  name="title"
+                  className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+                />
+              </label>
+              <label className="grid gap-1 text-sm font-semibold">
+                Summary
+                <textarea
+                  required
+                  minLength={20}
+                  maxLength={500}
+                  name="summary"
+                  rows={3}
+                  className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+                />
+              </label>
+              <label className="grid gap-1 text-sm font-semibold">
+                Category
+                <select
+                  name="category"
+                  className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+                >
+                  <option>Learning resource</option>
+                  <option>Opportunity</option>
+                  <option>Community update</option>
+                </select>
+              </label>
+              <label className="grid gap-1 text-sm font-semibold">
+                Original source URL
+                <input
+                  required
+                  type="url"
+                  pattern="https://.*"
+                  name="source_url"
+                  placeholder="https://"
+                  className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+                />
+              </label>
+              <label className="grid gap-1 text-sm font-semibold">
+                Deadline (optional)
+                <input
+                  type="date"
+                  name="deadline"
+                  className="rounded-xl border border-[#D8D0C4] px-3 py-2 font-normal"
+                />
+              </label>
+              <div className="flex flex-wrap gap-3">
+                <button
+                  disabled={busy}
+                  name="status"
+                  value="published"
+                  className="min-h-11 rounded-full bg-[#003B27] px-5 font-bold text-white disabled:opacity-60"
+                >
+                  Publish update
+                </button>
+                <button
+                  disabled={busy}
+                  name="status"
+                  value="draft"
+                  className="min-h-11 rounded-full border border-[#003B27] px-5 font-bold text-[#003B27] disabled:opacity-60"
+                >
+                  Save draft
+                </button>
+              </div>
+            </form>
+            <section className="mt-8" aria-labelledby="saved-updates">
+              <h2 id="saved-updates" className="font-display text-2xl font-bold">
+                Saved updates
+              </h2>
+              <div className="mt-4 grid gap-3">
+                {updates.map((update) => (
+                  <article
+                    key={update.id}
+                    className="flex flex-wrap items-start justify-between gap-3 rounded-2xl border border-[#E3D9C9] bg-white p-5"
+                  >
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-wider text-[#E65A24]">
+                        {update.category} · {"status" in update ? String(update.status) : "saved"}
+                      </p>
+                      <h3 className="mt-1 font-semibold">{update.title}</h3>
+                      <p className="mt-1 text-sm text-[#4A554E]">{update.summary}</p>
+                      <a
+                        className="mt-2 inline-block text-sm text-[#006143] underline"
+                        href={update.source_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Open source
+                      </a>
+                    </div>
+                    <button
+                      disabled={busy}
+                      onClick={() => void handleDelete(update.id)}
+                      className="rounded-full border border-red-200 px-4 py-2 text-xs font-bold text-red-700"
+                    >
+                      Delete
+                    </button>
+                  </article>
+                ))}
+                {updates.length === 0 && (
+                  <p className="rounded-2xl bg-white p-5 text-sm text-[#4A554E]">
+                    No updates saved yet.
+                  </p>
+                )}
+              </div>
+            </section>
+          </>
         )}
-
-        {activeTab === "settings" && (
-          <AdminSettings
-            initialWhatsappUrl={whatsappUrl}
-            onSave={handleSaveSettings}
-          />
-        )}
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 
-function TabButton({
-  active,
-  onClick,
-  icon,
-  label,
-}: {
-  active: boolean;
-  onClick: () => void;
-  icon: React.ReactNode;
-  label: string;
-}) {
+function Notice({ children }: { children: string }) {
   return (
-    <button
-      onClick={onClick}
-      className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
-        active
-          ? "bg-[#E65A24] text-white shadow-md shadow-[#E65A24]/20"
-          : "bg-white/5 hover:bg-white/10 text-[#EAE2D7]/70 hover:text-white border border-white/5"
-      }`}
+    <p
+      role="status"
+      className="mt-5 rounded-2xl border border-[#D5E6DC] bg-white px-4 py-3 text-sm text-[#355242]"
     >
-      {icon}
-      {label}
-    </button>
+      {children}
+    </p>
   );
-}
-
-function getDefaultEvents(): AdminEvent[] {
-  return EVENT_LISTINGS.map((e, i) => ({
-    id: e.id || `ev-${i + 1}`,
-    title: e.title,
-    date: e.date,
-    time: e.time,
-    venue: e.venue || `${e.city}`,
-    mode: "In-Person & Virtual",
-    tag: e.category,
-    status: (e.registrationStatus as "open" | "waitlist" | "ended") || "open",
-    link: e.href || OFFICIAL_WHATSAPP_COMMUNITY_URL,
-  }));
-}
-
-function getDefaultGallery(): string[] {
-  return [
-    "/images/gallery/gallery-1.jpg",
-    "/images/gallery/gallery-2.jpg",
-    "/images/community/pair-coding.jpg",
-    "/images/community/rooftop-meetup.jpg",
-    "/images/gallery/gallery-4.jpg",
-    "/images/gallery/gallery-5.jpg",
-    "/images/gallery/gallery-6.jpg",
-    "/images/gallery/gallery-7.jpg",
-    "/images/gallery/gallery-3.jpg",
-    "/images/community/meetup-main.jpg",
-    "/images/gallery/gallery-1.jpg",
-    "/images/gallery/gallery-2.jpg",
-    "/images/gallery/gallery-4.jpg",
-    "/images/gallery/gallery-5.jpg",
-  ];
 }
