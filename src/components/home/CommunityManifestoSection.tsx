@@ -60,7 +60,7 @@ function useInView<T extends HTMLElement>(threshold = 0.12) {
     if (!el) return;
     const io = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry?.isIntersecting) {
           setSeen(true);
           io.disconnect();
         }

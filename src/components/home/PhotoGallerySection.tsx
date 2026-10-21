@@ -24,7 +24,8 @@ const MosaicImage = ({
       }, 500);
       return () => clearTimeout(timer);
     }
-  }, [src]);
+    return undefined;
+  }, [src, currentSrc]);
 
   return (
     <div className={`${className} bg-slate-100 overflow-hidden`}>
@@ -97,7 +98,10 @@ export function PhotoGallerySection() {
         const randomSlot = Math.floor(Math.random() * 14);
         const unshown = pool.filter((img) => !next.includes(img));
         if (unshown.length > 0) {
-          next[randomSlot] = unshown[Math.floor(Math.random() * unshown.length)];
+          const chosen = unshown[Math.floor(Math.random() * unshown.length)];
+          if (chosen) {
+            next[randomSlot] = chosen;
+          }
         }
         return next;
       });
@@ -180,10 +184,10 @@ export function PhotoGallerySection() {
             <div className="flex items-center justify-center flex-shrink-0">
               <div className="group relative h-[200px] w-[140px] sm:h-[250px] sm:w-[175px] md:h-[300px] md:w-[220px] overflow-hidden rounded-xl sm:rounded-2xl md:rounded-3xl shadow-xl hover:scale-105 transition-all duration-300">
                 <MosaicImage
-                  src={center[0] || DEFAULT_POOL[0]}
+                  src={center[0] || DEFAULT_POOL[0] || ""}
                   alt="Center Gallery"
                   className="h-full w-full"
-                  onClick={() => setSelectedImage(center[0] || DEFAULT_POOL[0])}
+                  onClick={() => setSelectedImage(center[0] || DEFAULT_POOL[0] || "")}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100 z-10 pointer-events-none" />
               </div>
