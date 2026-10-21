@@ -394,6 +394,13 @@
   }
 }
 
+@media (min-width: 900px) {
+  .festival-header {
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
+
 @media (max-width: 899px) {
   .top-right-flowers {
     display: none;
@@ -535,10 +542,7 @@
   }
 
   .left-leaves {
-    z-index: 10;
-    bottom: -2%;
-    left: -12%;
-    width: min(48vw, 205px);
+    display: none;
   }
 }
 
