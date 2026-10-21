@@ -34,11 +34,12 @@ export function UpcomingEventsSection() {
               id="updates-heading"
               className="mt-3 font-display text-4xl font-semibold tracking-tight text-[#111814] sm:text-5xl"
             >
-              Useful things, shared as they happen.
+              Events and opportunities worth knowing about.
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#4A554E] sm:text-base">
-              We currently share learning resources and opportunities with members on WhatsApp.
-              We&apos;ll publish a website listing when there are verified updates to share.
+              We share technology conferences, hackathons, college fests, developer meetups and
+              other useful opportunities with members. Join WhatsApp for current updates; public
+              listings will appear here when they are published.
             </p>
           </div>
           <a

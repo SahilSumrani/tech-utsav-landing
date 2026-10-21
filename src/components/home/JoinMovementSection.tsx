@@ -6,33 +6,33 @@ export function JoinMovementSection() {
     <section
       id="community"
       aria-labelledby="community-heading"
-      className="bg-[#003B27] px-4 py-16 text-[#FAF5ED] sm:px-6 sm:py-20 lg:px-8 lg:py-24"
+      className="border-t border-[#E3D9C9] bg-[#F8F1E5] px-5 py-10 sm:px-8 sm:py-14 lg:px-12"
     >
-      <div className="mx-auto max-w-4xl text-center">
-        <p className="text-xs font-bold uppercase tracking-[0.2em] text-[#D4A359]">
-          {COMMUNITY_MEMBER_COUNT} learners and growing
-        </p>
-        <h2
-          id="community-heading"
-          className="mt-3 font-display text-4xl font-semibold leading-tight sm:text-5xl"
-        >
-          Your next step starts with a conversation.
-        </h2>
-        <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/75 sm:text-base">
-          Join the TechUtsav India WhatsApp community for student-focused learning resources, useful
-          opportunities and a place to keep growing.
-        </p>
+      <div className="mx-auto grid max-w-6xl gap-6 rounded-3xl bg-[#003B27] p-6 text-[#FAF5ED] sm:p-9 md:grid-cols-[1fr_auto] md:items-center md:gap-10">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-[#D4A359]">
+            Join {COMMUNITY_MEMBER_COUNT} community members
+          </p>
+          <h2
+            id="community-heading"
+            className="mt-2 font-display text-3xl font-semibold leading-tight sm:text-4xl"
+          >
+            Stay close to what’s next.
+          </h2>
+          <p className="mt-2 max-w-xl text-sm leading-6 text-white/75">
+            Events, learning links and opportunities for people building in tech.
+          </p>
+        </div>
         <a
           href={OFFICIAL_WHATSAPP_COMMUNITY_URL}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-8 inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-[#D4A359] px-7 py-3 text-sm font-extrabold text-[#14251C] transition-colors hover:bg-white"
+          className="inline-flex min-h-12 items-center justify-center gap-2 self-start rounded-full bg-[#D4A359] px-6 py-3 text-sm font-extrabold text-[#14251C] transition-colors hover:bg-white md:self-center"
         >
           <MessageCircle className="size-4" aria-hidden="true" />
-          Join the WhatsApp community
+          Join on WhatsApp
           <ArrowUpRight className="size-4" aria-hidden="true" />
         </a>
-        <p className="mt-3 text-xs text-white/60">Free to join · Students welcome</p>
       </div>
     </section>
   );

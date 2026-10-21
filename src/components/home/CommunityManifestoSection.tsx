@@ -41,8 +41,9 @@ export function CommunityManifestoSection() {
             Grow your skills, <span className="text-[#006143]">one step at a time.</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-[#4A554E] sm:text-base">
-            TechUtsav India is a student-first technology community. We share resources and
-            opportunities so learners can build skills and put them to use in their future.
+            From students and developers to working professionals and startup founders, TechUtsav
+            India shares resources, event announcements and opportunities to help people learn,
+            connect and grow.
           </p>
         </div>
 

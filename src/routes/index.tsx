@@ -8,13 +8,19 @@ import leftLeaves from "@/assets/left-leaves.png.asset.json";
 import logo from "@/assets/techutsav-logo.png.asset.json";
 import rightScene from "@/assets/right-scene.png.asset.json";
 import topRightFlowers from "@/assets/top-right-flowers.png.asset.json";
-import { OFFICIAL_WHATSAPP_COMMUNITY_URL } from "@/lib/homepage-content";
+import {
+  COMMUNITY_DESCRIPTION,
+  HOMEPAGE_SEO_DESCRIPTION,
+  HOMEPAGE_SEO_TITLE,
+  OFFICIAL_WHATSAPP_COMMUNITY_URL,
+} from "@/lib/homepage-content";
 import { CommunityManifestoSection } from "@/components/home/CommunityManifestoSection";
 import { UpcomingEventsSection } from "@/components/home/UpcomingEventsSection";
 import { JoinMovementSection } from "@/components/home/JoinMovementSection";
 import { EditorialFooter } from "@/components/home/EditorialFooter";
 import { CommunityInfoSection } from "@/components/home/CommunityInfoSection";
 import { CommunityFaqSection } from "@/components/home/CommunityFaqSection";
+import { CommunityOpportunitiesSection } from "@/components/home/CommunityOpportunitiesSection";
 import socialImage from "@/assets/techutsav-heritage-hero.jpg";
 
 const navigation = [
@@ -27,30 +33,24 @@ const navigation = [
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "TechUtsav India — A student-first tech learning community" },
+      { title: HOMEPAGE_SEO_TITLE },
       {
         name: "description",
-        content:
-          "Join 1K+ learners in the TechUtsav India WhatsApp community. Discover student-friendly technology resources, useful opportunities and ways to grow your skills.",
+        content: HOMEPAGE_SEO_DESCRIPTION,
       },
-      { property: "og:title", content: "TechUtsav India — Grow your tech skills together" },
-      {
-        property: "og:description",
-        content:
-          "A student-first technology community sharing learning resources and opportunities to help learners grow.",
-      },
+      { property: "og:title", content: HOMEPAGE_SEO_TITLE },
+      { property: "og:description", content: HOMEPAGE_SEO_DESCRIPTION },
       { property: "og:type", content: "website" },
       { property: "og:url", content: "https://techutsavindia.vercel.app/" },
       { property: "og:image", content: `https://techutsavindia.vercel.app${socialImage}` },
       { property: "og:image:alt", content: "TechUtsav India student technology community" },
       {
         name: "twitter:title",
-        content: "TechUtsav India — A student-first tech learning community",
+        content: HOMEPAGE_SEO_TITLE,
       },
       {
         name: "twitter:description",
-        content:
-          "Join 1K+ learners sharing student-friendly technology resources and opportunities.",
+        content: HOMEPAGE_SEO_DESCRIPTION,
       },
       { name: "twitter:image", content: `https://techutsavindia.vercel.app${socialImage}` },
       { name: "twitter:image:alt", content: "TechUtsav India student technology community" },
@@ -78,8 +78,7 @@ function Index() {
                 "@id": "https://techutsavindia.vercel.app/#organization",
                 name: "TechUtsav India",
                 url: "https://techutsavindia.vercel.app/",
-                description:
-                  "A student-first technology learning community sharing resources and opportunities.",
+                description: COMMUNITY_DESCRIPTION,
                 logo: `https://techutsavindia.vercel.app${logo.url}`,
               },
               {
@@ -87,6 +86,7 @@ function Index() {
                 "@id": "https://techutsavindia.vercel.app/#website",
                 name: "TechUtsav India",
                 url: "https://techutsavindia.vercel.app/",
+                description: COMMUNITY_DESCRIPTION,
                 publisher: { "@id": "https://techutsavindia.vercel.app/#organization" },
               },
             ],
@@ -197,6 +197,7 @@ function Index() {
         </div>
 
         <CommunityManifestoSection />
+        <CommunityOpportunitiesSection />
         <UpcomingEventsSection />
         <CommunityInfoSection />
         <CommunityFaqSection />

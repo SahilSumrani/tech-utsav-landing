@@ -8,6 +8,29 @@ export const WHATSAPP_COMMUNITY_URL =
 
 export const OFFICIAL_WHATSAPP_COMMUNITY_URL = WHATSAPP_COMMUNITY_URL;
 export const COMMUNITY_MEMBER_COUNT = "1K+";
+export const COMMUNITY_DESCRIPTION =
+  "TechUtsav India shares technology events, learning resources and opportunities for students, developers, working professionals and startup founders.";
+export const HOMEPAGE_SEO_TITLE = "TechUtsav India | Tech Events, Meetups & Conferences";
+export const HOMEPAGE_SEO_DESCRIPTION =
+  "Discover tech conferences, hackathons, college fests, DevFest, meetups and startup events shared for students, developers and professionals across India.";
+
+export const COMMUNITY_AUDIENCES = [
+  "Students",
+  "Developers",
+  "Working professionals",
+  "Startup founders",
+  "Tech enthusiasts",
+];
+
+export const COMMUNITY_OPPORTUNITIES = [
+  "Technology conferences and industry events",
+  "Google, Meta and Amazon events",
+  "Government technology programs and conferences",
+  "Hackathons and college fests",
+  "DevFest, DevDay and developer meetups",
+  "IIT Delhi events and campus programs",
+  "Business summits and founder networking meetups",
+];
 
 export const COMMUNITY_SOCIAL_LINKS: { label: string; href: string }[] = [];
 
@@ -22,17 +45,22 @@ export const COMMUNITY_FAQS = [
   {
     question: "What is TechUtsav India?",
     answer:
-      "TechUtsav India is a student-first technology learning community. Members share useful learning resources, ask questions and explore opportunities together.",
+      "TechUtsav India is a community that helps people discover technology learning resources, events and opportunities, then put what they learn into practice.",
   },
   {
-    question: "Who can join the community?",
+    question: "What kind of events and opportunities do you share?",
     answer:
-      "Students and learners at any experience level are welcome. You do not need to be an expert to join or ask questions.",
+      "We share technology conferences, Google, Meta and Amazon events, government programs, hackathons, college fests, DevFest and DevDay meetups, IIT Delhi events, business summits and founder networking opportunities.",
   },
   {
-    question: "Does TechUtsav India organize hackathons or events?",
+    question: "Who is the TechUtsav community for?",
     answer:
-      "Not currently. The community focuses on helping students learn and upskill, and shares relevant opportunities with members.",
+      "Students, developers, working professionals, startup founders and anyone curious about technology and learning are welcome.",
+  },
+  {
+    question: "Does TechUtsav India organize the events it shares?",
+    answer:
+      "TechUtsav shares event announcements from campus, community, industry and public organizers. Check each listing for its host, eligibility and official details.",
   },
   {
     question: "How do I get updates?",
